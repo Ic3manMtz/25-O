@@ -22,7 +22,7 @@ public class Clasifica {
         Instances data;
 
         // Lee modelo
-        File modelo = new File("../rulesJRip.model");
+        File modelo = new File("../LWL.model");
         InputStream in = new FileInputStream(modelo);
         
         clasificador = (Classifier) SerializationHelper.read(in);
