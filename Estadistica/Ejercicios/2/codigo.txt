@@ -1,0 +1,146 @@
+> #Carga de datos
+> resistencia <- c(2158.70, 1678.15, 2316.00, 2061.30, 2207.50, 1708.30, 1784.70, 
++                  2575.00, 2357.90, 2256.70, 2165.20, 2399.55, 1779.80, 2336.75, 
++                  1765.30, 2053.50, 2414.40, 2200.50, 2654.20, 1753.70)
+> edad <- c(15.50, 23.75, 8.00, 17.00, 5.50, 19.00, 24.00, 2.50, 7.50, 11.00, 
++           13.00, 3.75, 25.00, 9.75, 22.00, 18.00, 6.00, 12.50, 2.00, 21.50)
+> 
+> 
+> # 1. Identificar variables
+> # Variable de respuesta Y: Resistencia
+> # Variables regresora: Edad
+> # Modelo: Y = B0 + B1X + d
+> 
+> 
+> # 2. Diagrama de dispersion de los datos
+> plot(edad,resistencia)
+> 
+> # 3. Estimadores para B0 y B1
+> lm(resistencia~edad)
+
+Call:
+lm(formula = resistencia ~ edad)
+
+Coefficients:
+(Intercept)         edad  
+    2627.82       -37.15  
+
+> modelo <- lm(resistencia,edad)
+Error en attr(x, "formula") %||% {: invalid formula
+
+> modelo<-lm(resistencia,edad)
+Error en attr(x, "formula") %||% {: invalid formula
+
+> modelo<-lm(resistencia~edad)
+> abline(modelo)
+> summary(modelo)
+
+Call:
+lm(formula = resistencia ~ edad)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-215.98  -50.68   28.74   66.61  106.76 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 2627.822     44.184   59.48  < 2e-16 ***
+edad         -37.154      2.889  -12.86 1.64e-10 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 96.11 on 18 degrees of freedom
+Multiple R-squared:  0.9018,	Adjusted R-squared:  0.8964 
+F-statistic: 165.4 on 1 and 18 DF,  p-value: 1.643e-10
+
+> # Ecuacion de la recta ajustada
+> cat("Resistencia =", round(beta0, 2), "+", round(beta1, 2), "* Edad\n")
+Error: objeto 'beta0' no encontrado
+
+> cat("Resistencia =", round(coef(modelo)[1], 2), "+", round(coef(modelo)[2], 2), "* Edad\n")
+Resistencia = 2627.82 + -37.15 * Edad
+> 
+> # 4. Grafica de la recta de regresion con datos
+> plot(edad,resistencia)
+> abline(modelo)
+> 
+> 
+> # 5. Prueba de significancia, p-valor<alpha
+> # p-valor = 1.64e-10
+> # alpha = 0.05
+> 
+> 
+> # 6. Estimacion para lotes tipo 1 con 5, 10 y 15
+> predict(modelo, list(edad=c(5)), interval = 'prediction')
+       fit      lwr      upr
+1 2442.054 2229.021 2655.087
+> predict(modelo, list(edad=c(10,15)), interval = 'prediction')
+       fit      lwr      upr
+1 2256.286 2048.385 2464.188
+2 2070.518 1863.382 2277.655
+> 
+> 
+> # 7. Coeficiente de determinacion
+> # Multiple R-squared: 0.9018
+> 
+> # 8. Verificacion de supuestos del modelo
+> residuales<-residuals(modelo)
+> residuales<-rstudent(modelo)
+> qqnorm
+function (y, ...) 
+UseMethod("qqnorm")
+<bytecode: 0x00000227fbd0bda0>
+<environment: namespace:stats>
+> qqnorm(residuales)
+> qqline
+function (y, datax = FALSE, distribution = qnorm, probs = c(0.25, 
+    0.75), qtype = 7, ...) 
+{
+    stopifnot(length(probs) == 2, is.function(distribution))
+    y <- as.vector(quantile(y, probs, names = FALSE, type = qtype, 
+        na.rm = TRUE))
+    x <- distribution(probs)
+    if (datax) {
+        slope <- diff(x)/diff(y)
+        int <- x[[1L]] - slope * y[[1L]]
+    }
+    else {
+        slope <- diff(y)/diff(x)
+        int <- y[[1L]] - slope * x[[1L]]
+    }
+    abline(int, slope, ...)
+}
+<bytecode: 0x00000227fddda930>
+<environment: namespace:stats>
+> qqline(residuales)
+> 
+> plot(predict(),residuales)
+Error en UseMethod("predict"): 
+  no applicable method for 'predict' applied to an object of class "NULL"
+
+> plot(predict(modelo),residuales)
+> 
+> 
+> # 9. Puntos atipicos e influyentes
+> cooks.distance(modelo)
+           1            2            3            4            5 
+0.0373281981 0.0497291858 0.0010260760 0.0161482719 0.3343768993 
+           6            7            8            9           10 
+0.2290842436 0.0270491200 0.0191323748 0.0003959877 0.0047094549 
+          11           12           13           14           15 
+0.0012482345 0.0761514881 0.0889892211 0.0192517639 0.0166302585 
+          16           17           18           19           20 
+0.0387158541 0.0005955991 0.0041888627 0.1317143774 0.0425721512 
+> cooks.distance(modelo)>1
+    1     2     3     4     5     6     7     8     9    10    11    12 
+FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
+   13    14    15    16    17    18    19    20 
+FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE 
+> outliers<-which(abs(residuales) > 2)
+> if(length(outliers) > 0) {
++     print(outliers)
++ } else {
++     cat("No se detectaron outliers significativos\n")
++ }
+5 6 
+5 6 
