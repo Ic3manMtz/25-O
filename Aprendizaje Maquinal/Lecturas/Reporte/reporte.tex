@@ -1,0 +1,247 @@
+%%%%%%   TIPO DE DOCUMENTO: Artículo   %%%%%%
+\documentclass[letterpaper,11pt,spanish]{report}
+
+% ========================================
+% CONFIGURACIÓN BÁSICA DEL DOCUMENTO
+% ========================================
+\usepackage[utf8]{inputenc}        % Soporte para caracteres especiales y acentos
+\usepackage[spanish]{babel}        % Idioma español (traducciones y reglas tipográficas)
+\usepackage{xspace}                 % Manejo inteligente de espacios después de comandos
+\renewcommand{\baselinestretch}{1} % Interlineado simple
+
+% --------------------------
+% CONFIGURACIÓN DE TÍTULOS 
+% --------------------------
+
+%\titleformat{comando}{forma}
+%   {formato}
+%   {etiqueta}
+%   {separacion}
+%   {antes del titulo}
+%   [despues del titulo]
+
+\usepackage{titlesec}
+\usepackage{etoolbox}
+
+\titleformat{\chapter}[display] 
+{\Large\raggedleft} 
+{}
+{0pt}
+{
+    \ifnum\value{chapter}>0 
+        \rule{\textwidth}{0.5pt}
+        \vspace{1ex}
+        {\Large\bfseries\chaptername\ \thechapter \\}
+        \vspace{1ex}
+    \fi
+} 
+[
+    \rule{\textwidth}{0.3pt}
+] 
+
+
+\titleformat{\section}
+{\normalfont\bfseries\Large\raggedright}
+{\thesection}
+{1em}
+{}
+
+\titleformat{\subsection}
+{\normalfont\bfseries\large\raggedright}
+{\thesubsection}
+{1em}
+{}
+
+% --------------------------
+% CONFIGURACIÓN DE ENCABEZADOS CON FANCYHDR
+% --------------------------
+\usepackage{fancyhdr}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\fancypagestyle{mainstyle}{%
+  \fancyhf{}
+  \fancyhead[L]{\leftmark}
+  \fancyhead[R]{\thepage}
+  \fancyfoot{}
+}
+
+% --------------------------
+% CONFIGURACIÓN DE ANEXOS
+% --------------------------
+\newcommand{\appendixtitleformat}{
+  \titleformat{\chapter}[display]
+    {\Large\raggedleft}
+    {\appendixname\ \thechapter}
+    {1ex}
+    {\Large\bfseries}
+    [\vspace{1ex}\rule{\textwidth}{0.3pt}]
+}
+
+
+% ========================================
+% MATEMÁTICAS Y SÍMBOLOS
+% ========================================
+\usepackage{amsmath}                % Entornos matemáticos avanzados
+\usepackage{amssymb}                % Símbolos matemáticos extendidos
+\usepackage{amscd}                  % Diagramas conmutativos
+\usepackage{amsthm}                 % Teoremas y entornos de demostración
+
+% ========================================
+% ALGORITMOS Y PSEUDOCÓDIGO
+% ========================================
+\usepackage{algorithm}              % Entornos para algoritmos
+\usepackage{algpseudocode}          % Estilo para pseudocódigo
+
+% ========================================
+% GRÁFICOS E IMÁGENES
+% ========================================
+\usepackage{graphicx}               % Inclusión y manipulación de imágenes
+\usepackage{subcaption}             % Subtítulos para subfiguras (subfigure)
+\usepackage{tikz}                   % Creación de gráficos vectoriales
+\usetikzlibrary{shapes, arrows}     % Formas y flechas para TikZ
+\usetikzlibrary{arrows.meta}        % Estilos avanzados de flechas
+\usetikzlibrary{positioning}        % Posicionamiento preciso de nodos
+
+% ========================================
+% CÓDIGO FUENTE Y LISTADOS
+% ========================================
+\usepackage{listings}               % Inclusión de código fuente
+\renewcommand{\lstlistingname}{Código} % Cambia "Listing" por "Código"
+\renewcommand{\lstlistlistingname}{Lista de Códigos} % Título de la lista de códigos
+\lstset{                            % Configuración básica de listados:
+    basicstyle=\ttfamily\small,     
+    numbers=left,
+    frame=shadowbox,
+    breaklines=true,               
+    captionpos=b,                   
+}
+
+% ========================================
+% ESTRUCTURAS DE DIRECTORIOS
+% ========================================
+\usepackage{dirtree}                % Generación de árboles de directorios
+
+% ========================================
+% LISTAS Y ENUMERACIONES
+% ========================================
+\usepackage{enumitem}               % Personalización de listas (espaciados, etiquetas)
+\setlist{itemsep=0pt, topsep=5pt}   % Configuración de espacios en listas
+
+% ========================================
+% TABLAS Y ELEMENTOS FLOTANTES
+% ========================================
+\usepackage{booktabs}               % Tablas con mejor formato
+\usepackage{float}                  % Control avanzado de posición de flotantes
+\usepackage{caption}                % Personalización de leyendas
+\usepackage{calc}                   % Cálculos precisos de dimensiones
+
+% ========================================
+% HIPERVÍNCULOS Y REFERENCIAS
+% ========================================
+\usepackage{hyperref}               % Hipervínculos en el documento
+\usepackage[active]{srcltx}         % Búsqueda inversa en editores (doble clic en PDF)
+
+% ========================================
+% OTROS UTILITARIOS
+% ========================================
+\usepackage{verbatim}               % Entornos para texto sin interpretación
+\usepackage{makeidx}                % Generación de índices
+
+% ========================================
+% CONFIGURACIONES ADICIONALES
+% ========================================
+\renewcommand{\thesection}{\thechapter.\arabic{section}} % Numeración arábiga para secciones
+\renewcommand{\thesubsection}{\thechapter.\arabic{section}.\arabic{subsection}}
+
+% --------------------------
+% CONFIGURACIÓN DE PÁGINA
+% --------------------------
+\setlength{\textheight}{21.6cm}
+\setlength{\textwidth}{14cm}
+\setlength{\oddsidemargin}{1cm}
+\setlength{\evensidemargin}{1cm}
+\captionsetup[figure]{position=below, skip=0pt}
+
+% --------------------------
+% INICIO DEL DOCUMENTO
+% --------------------------
+\begin{document}
+
+% --------------------------
+% PORTADA
+% --------------------------
+\thispagestyle{empty}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{img/logoUAM.png}
+\end{figure}
+
+\begin{center}
+    \rule{\textwidth}{0.5pt}
+    \\[0.7em]
+    {\LARGE\bfseries Pr\'actica 2: Exploratory Data Analysis}\\[1cm]
+    {\normalsize\itshape Presentado por:}\\
+    {\large Jorge Rafael Martínez Buenrostro}
+    \rule{\textwidth}{0.5pt}
+\end{center}
+
+\vspace{2cm}
+\begin{center}
+    {\large Profesor: Ren\'e Mac Kinney Romero}    
+\end{center}
+
+\vfill  
+\begin{center}
+    México, CDMX, a \today
+\end{center}
+
+\vspace{2cm}
+
+\pagenumbering{roman}
+\setcounter{page}{0}
+\pagestyle{plain}
+% --------------------------
+% RESUMEN (ABSTRACT)
+% --------------------------
+%\chapter*{Resumen}
+%Una trayectoria se define como la secuencia de desplazamientos realizada por un individuo en movimiento, compuesta por tres elementos principales: \texttt{puntos de recorrido}, \texttt{tiempos de pausa} y \texttt%%{longitudes de vuelo}. Los puntos de recorrido corresponden a las ubicaciones o pasos específicos por los que transita el individuo. Los tiempos de pausa representan los intervalos durante los cuales el individuo permanece detenenido en un mismo punto de recorrido. Por último, la longitud de vuelo se refiere a la distancia recorrida entre dos puntos de recorrido consecutivos. En el presente trabajo se describe el proceso de caraterización de datos de movilidad, es decir, el proceso de limpieza y depuración de la información, mediante el cual elimina aquellos campos y registros que no le aportan valor a la trayectoria individual. El objetivo es identificar la mayor cantidad de trayectorias individuales, para así poder crear un modelo que permita simular el movimiento de individuos.
+
+% --------------------------
+% ÍNDICE DE CONTENIDOS
+% --------------------------
+\newpage
+%\renewcommand{\contentsname}{Contenido}
+%\tableofcontents
+
+% --------------------------
+% LISTA DE FIGURAS
+% --------------------------
+%\renewcommand{\listfigurename}{Lista de Figuras}
+%\listoffigures
+
+% --------------------------
+% LISTA DE CODIGOS FUENTE
+% --------------------------
+%\cleardoublepage
+%\addcontentsline{toc}{chapter}{Lista de Códigos}
+%\lstlistoflistings
+
+% --------------------------
+% CUERPO PRINCIPAL
+% --------------------------
+\cleardoublepage
+\pagestyle{mainstyle} % Aplica el estilo de encabezado definido
+\pagenumbering{arabic}
+\setcounter{page}{1} % Reinicia numeración después de índices
+
+% Capítulos 
+%\chapter{Introducción del Proyecto}
+%\input{Secciones/introduccion}
+
+\cleardoublepage
+
+
+
+\end{document}
+
