@@ -22,7 +22,7 @@ public class Clasifica {
         Instances data;
 
         // Lee modelo
-        File modelo = new File("../prueba.model");
+        File modelo = new File("../JRip.model");
         InputStream in = new FileInputStream(modelo);
         
         clasificador = (Classifier) SerializationHelper.read(in);
@@ -37,7 +37,7 @@ public class Clasifica {
         String nombreArchivoSalida = "submission_" + nombreModelo + ".csv";
         
         // Lee datos
-        File inF = new File("test.arff");
+        File inF = new File("titanic_test_cleaned.arff");
         InputStream inD = new FileInputStream(inF);
         
         DataSource source = new DataSource(inD);
