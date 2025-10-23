@@ -1,0 +1,185 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath, amssymb}
+\usepackage{enumerate}
+\geometry{margin=2.5cm}
+
+% Configuración de listings para código R
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    language=R,
+    showstringspaces=false,
+    columns=flexible
+}
+
+\title{Matemáticas Discretas II\\
+Tarea 1}
+\date{13 de Junio, 2025}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{Nombre del alumnx:} \underline{\hspace{0.5cm}Martínez Buenrostro Jorge Rafael\hspace{0.5cm}}
+
+\vspace{1cm}
+
+\section*{Ejercicio 1: Criterio de la Integral}
+
+\begin{enumerate}[a)]
+    \item Serie: $\sum_{n=1}^{\infty} \frac{n}{e^n}$ \\
+    Función: $f(x) = \frac{x}{e^x}$ (positiva, continua y decreciente para $x \geq 1$). \\
+    Integral: 
+    \[
+    \int_{1}^{\infty} \frac{x}{e^x} \, dx = \lim_{b \to \infty} \left[ -e^{-x}(x+1) \right]_{1}^{b} = \lim_{b \to \infty} \left( -\frac{b+1}{e^b} + \frac{2}{e} \right) = \frac{2}{e}.
+    \]
+    Conclusión: La serie converge.
+
+    \item Serie: $\sum_{n=2}^{\infty} \frac{1}{n \ln n}$ \\
+    Función: $f(x) = \frac{1}{x \ln x}$ (positiva, continua y decreciente para $x \geq 2$). \\
+    Integral:
+    \[
+    \int_{2}^{\infty} \frac{dx}{x \ln x} = \lim_{b \to \infty} \left[ \ln |\ln x| \right]_{2}^{b} = \lim_{b \to \infty} \left( \ln(\ln b) - \ln(\ln 2) \right) = \infty.
+    \]
+    Conclusión: La serie diverge.
+
+    \item Serie: $\sum_{n=1}^{\infty} \frac{50}{n(n+1)}$ \\
+    Función: $f(x) = \frac{50}{x(x+1)}$ (positiva, continua y decreciente para $x \geq 1$). \\
+    Integral:
+    \[
+    \int_{1}^{\infty} \frac{50}{x(x+1)} \, dx = 50 \int_{1}^{\infty} \left( \frac{1}{x} - \frac{1}{x+1} \right) dx = 50 \lim_{b \to \infty} \left[ \ln \left( \frac{x}{x+1} \right) \right]_{1}^{b} = 50 \ln 2.
+    \]
+    Conclusión: La serie converge.
+
+    \item Serie: $\sum_{n=1}^{\infty} \frac{n}{(n+1)(n+2)}$ \\
+    Función: $f(x) = \frac{x}{(x+1)(x+2)}$ (positiva, continua y decreciente para $x \geq 1$). \\
+    Descomposición en fracciones parciales:
+    \[
+    \frac{x}{(x+1)(x+2)} = \frac{-1}{x+1} + \frac{2}{x+2}.
+    \]
+    Integral:
+    \[
+    \int_{1}^{\infty} f(x) \, dx = \lim_{b \to \infty} \left[ -\ln(x+1) + 2 \ln(x+2) \right]_{1}^{b} = \lim_{b \to \infty} \left[ \ln \left( \frac{(b+2)^2}{b+1} \right) - \ln \left( \frac{9}{2} \right) \right] = \infty.
+    \]
+    Conclusión: La serie diverge.
+\end{enumerate}
+
+\section*{Ejercicio 2: Criterio de Comparación}
+
+\begin{enumerate}[a)]
+    \item Serie: $\sum_{n=2}^{\infty} \frac{1}{n^3 - 1}$ \\
+    Comparación con $\frac{1}{n^3}$: Para $n \geq 2$, $n^3 - 1 > \frac{n^3}{2}$, entonces $\frac{1}{n^3 - 1} < \frac{2}{n^3}$. \\
+    Conclusión: La serie converge.
+
+    \item Serie: $\sum_{n=2}^{\infty} \frac{\ln n}{n}$ \\
+    Comparación con $\frac{1}{n}$: Para $n \geq 3$, $\ln n > 1$, entonces $\frac{\ln n}{n} > \frac{1}{n}$. \\
+    Conclusión: La serie diverge.
+
+    \item Serie: $\sum_{n=1}^{\infty} \frac{1}{3^n + 1}$ \\
+    Comparación con $\frac{1}{3^n}$: $3^n + 1 > 3^n$, entonces $\frac{1}{3^n + 1} < \frac{1}{3^n}$. \\
+    Conclusión: La serie converge.
+
+    \item Serie: $\sum_{n=1}^{\infty} \frac{n^4 - 5}{n^5}$ \\
+    Simplificación: $\frac{n^4 - 5}{n^5} = \frac{1}{n} - \frac{5}{n^5}$. \\
+    Conclusión: La serie diverge.
+\end{enumerate}
+
+\section*{Ejercicio 3: Criterio del Cociente}
+
+\begin{enumerate}[a)]
+    \item Serie: $\sum_{n=1}^{\infty} \frac{(n+1)(n+2)}{n!}$ \\
+    Cociente:
+    \[
+    \frac{a_{n+1}}{a_n} = \frac{(n+2)(n+3)}{(n+1)!} \cdot \frac{n!}{(n+1)(n+2)} = \frac{n+3}{(n+1)^2}.
+    \]
+    Límite:
+    \[
+    \lim_{n \to \infty} \frac{a_{n+1}}{a_n} = \lim_{n \to \infty} \frac{n+3}{n^2 + 2n + 1} = 0.
+    \]
+    Conclusión: La serie converge.
+
+    \item Serie: $\sum_{n=1}^{\infty} \frac{n^n}{n!}$ \\
+    Cociente:
+    \[
+    \frac{a_{n+1}}{a_n} = \frac{(n+1)^{n+1}}{(n+1)!} \cdot \frac{n!}{n^n} = \left(1 + \frac{1}{n}\right)^n.
+    \]
+    Límite:
+    \[
+    \lim_{n \to \infty} \frac{a_{n+1}}{a_n} = e.
+    \]
+    Conclusión: La serie diverge.
+
+    \item Serie: $\sum_{n=1}^{\infty} \frac{2^n}{2n - 1}$ \\
+    Cociente:
+    \[
+    \frac{a_{n+1}}{a_n} = \frac{2^{n+1}}{2n+1} \cdot \frac{2n-1}{2^n} = 2 \cdot \frac{2n-1}{2n+1}.
+    \]
+    Límite:
+    \[
+    \lim_{n \to \infty} \frac{a_{n+1}}{a_n} = 2.
+    \]
+    Conclusión: La serie diverge.
+
+    \item Serie: $\sum_{n=1}^{\infty} n \left( \frac{3}{4} \right)^n$ \\
+    Cociente:
+    \[
+    \frac{a_{n+1}}{a_n} = \frac{(n+1)\left( \frac{3}{4} \right)^{n+1}}{n \left( \frac{3}{4} \right)^n} = \left(1 + \frac{1}{n}\right) \cdot \frac{3}{4}.
+    \]
+    Límite:
+    \[
+    \lim_{n \to \infty} \frac{a_{n+1}}{a_n} = \frac{3}{4}.
+    \]
+    Conclusión: La serie converge.
+\end{enumerate}
+
+\section*{Ejercicio 4: $\mathbb{Z} \times \mathbb{Z}$ es Contable}
+
+Argumento: $\mathbb{Z}$ es contable, y el producto cartesiano de dos conjuntos contables es contable. Se puede construir una biyección entre $\mathbb{N} \times \mathbb{N}$ y $\mathbb{Z} \times \mathbb{Z}$ mediante una enumeración diagonal.
+
+\section*{Ejercicio 5: $A = \{2^n \cdot 3^n : n \in \mathbb{Z}\}$ es Contable}
+
+Observación: $2^n \cdot 3^n = 6^n$, entonces $A = \{6^n : n \in \mathbb{Z}\}$. \\
+Función sobreyectiva: $f: \mathbb{Z} \to A$ definida por $f(n) = 6^n$. \\
+Conclusión: $\mathbb{Z}$ es contable, entonces $A$ es contable.
+
+\section*{Ejercicio 6: $(0,1) \sim \mathbb{R}$}
+
+Función biyectiva: $f(x) = \tan\left(\pi x - \frac{\pi}{2}\right)$. \\
+Justificación: $f$ es continua y estrictamente creciente en $(0,1)$, con $\lim_{x \to 0^+} f(x) = -\infty$ y $\lim_{x \to 1^-} f(x) = +\infty$.
+
+\section*{Ejercicio 7: Verdadero o Falso}
+
+\begin{enumerate}[a)]
+    \item $\mathbb{Q}$ es numerable. \textbf{Verdadero.} \\
+    \textbf{Argumento:} $\mathbb{Q}$ puede ponerse en correspondencia uno a uno con $\mathbb{N}$ mediante una enumeración diagonal de fracciones $\frac{p}{q}$ con $p, q \in \mathbb{Z}$, $q > 0$, y $\gcd(p, q) = 1$.
+
+    \item $\mathbb{Q} \cap [0,1)$ no es contable. \textbf{Falso.} \\
+    \textbf{Contraejemplo:} $\mathbb{Q} \cap [0,1)$ es un subconjunto de $\mathbb{Q}$ (que es contable), por lo tanto es contable. Puede enumerarse como $0, \frac{1}{2}, \frac{1}{3}, \frac{2}{3}, \frac{1}{4}, \frac{3}{4}, \dots$.
+
+    \item Si $A$ y $B$ son contables, entonces $A \cup B$ es contable. \textbf{Verdadero.} \\
+    \textbf{Argumento:} Si $A = \{a_1, a_2, \dots\}$ y $B = \{b_1, b_2, \dots\}$, entonces $A \cup B$ se enumera como $a_1, b_1, a_2, b_2, \dots$ (eliminando duplicados).
+
+    \item Si $A$ y $B$ son contables, entonces $A \cap B$ es contable. \textbf{Verdadero.} \\
+    \textbf{Argumento:} $A \cap B \subseteq A$, y todo subconjunto de un conjunto contable es a lo más contable.
+
+    \item $\mathbb{I} = \mathbb{R} \setminus \mathbb{Q}$ no es contable. \textbf{Verdadero.} \\
+    \textbf{Argumento:} $\mathbb{R} = \mathbb{Q} \cup \mathbb{I}$. Si $\mathbb{I}$ fuera contable, $\mathbb{R}$ sería contable (uniÃ³n de dos contables), contradiciendo el argumento diagonal de Cantor.
+
+    \item Sean $A$ y $B$ conjuntos con $A \subset B$. Si $A$ no es contable, entonces $B$ tampoco es contable. \textbf{Verdadero.} \\
+    \textbf{Argumento:} Si $B$ fuera contable, entonces $A \subseteq B$ serÃ-a contable, contradiciendo la hipótesis.
+\end{enumerate}
+
+\end{document}
