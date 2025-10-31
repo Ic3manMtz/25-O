@@ -1,0 +1,44 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "type": "java",
+      "name": "CN2",
+      "request": "launch",
+      "mainClass": "weka.classifiers.rules.CN2",
+      "projectName": "CN2_ac3223fd"
+    },
+    {
+      "type": "java",
+      "name": "Complejo",
+      "request": "launch",
+      "mainClass": "weka.classifiers.rules.Complejo",
+      "projectName": "CN2_ac3223fd"
+    },
+    {
+      "type": "java",
+      "name": "Condicion",
+      "request": "launch",
+      "mainClass": "weka.classifiers.rules.Condicion",
+      "projectName": "CN2_ac3223fd"
+    },
+    {
+      "type": "java",
+      "name": "ListaReglas",
+      "request": "launch",
+      "mainClass": "weka.classifiers.rules.ListaReglas",
+      "projectName": "CN2_ac3223fd"
+    },
+    {
+      "type": "java",
+      "name": "Regla",
+      "request": "launch",
+      "mainClass": "weka.classifiers.rules.Regla",
+      "projectName": "CN2_ac3223fd"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Class-Path: file:/Volumes/Users/rene/Library/Application%20Support/Code/
+ User/workspaceStorage/6e403faa2df3521d91383796d9c232c8/redhat.java/jdt_
+ ws/AprendizCN2_3255475d/bin/ file:/Volumes/Users/rene/Downloads/weka-3-
+ 8-6/weka.jar
+

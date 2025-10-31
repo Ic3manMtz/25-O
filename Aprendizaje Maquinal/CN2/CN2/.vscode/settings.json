@@ -1,0 +1,9 @@
+{
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "/Users/rene/Downloads/weka-3-8-6/weka.jar"
+    ],
+    "java.project.sourcePaths": [
+        "src"
+    ]
+}
