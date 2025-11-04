@@ -13,7 +13,7 @@ import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
 /**
- * @author alumno
+ * @author Jorge Rafael Martínez Buenrostro
  * Se debe comentar el código
  */
 public class CN2 extends AbstractClassifier {

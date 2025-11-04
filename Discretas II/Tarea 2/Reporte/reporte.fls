@@ -1,8 +1,8 @@
-PWD /home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 1/Reporte
+PWD /home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 2/Reporte
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 1/Reporte/reporte.tex
+INPUT /home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 2/Reporte/reporte.tex
 OUTPUT reporte.log
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/base/article.cls

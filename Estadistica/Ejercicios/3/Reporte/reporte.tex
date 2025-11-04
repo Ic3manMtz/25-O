@@ -1,0 +1,67 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\geometry{margin=2.5cm}
+
+% Configuración de listings para código R
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    language=R,
+    showstringspaces=false,
+    columns=flexible
+}
+
+\title{Estadística y Diseño de Experimentos\\
+Ejercicios 3}
+\date{11 de Noviembre, 2025}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{Nombre del alumnx:} \underline{\hspace{0.5cm}Martínez Buenrostro Jorge Rafael\hspace{0.5cm}}
+
+\vspace{1cm}
+
+\begin{enumerate}
+  \item Se estudian 25 lotes de una marca de leche entera, y en cada uno se mide el contenido de gramos de proteína por cada 100 ml. Los resultados son los siguientes:
+  
+  \begin{enumerate}
+    \item Obtenga el estimador para la media y el estimador para la varianza.
+    \item Obtenga un intervalo de 99\% de confianza para la media.
+    \item Obtenga un intervalo de 95\% de confianza para la varianza.
+    \item Por norma, la leche entera debe tener al menos 3 gramos de proteína por cada 100 ml. Plantee y resuelva una prueba de hipótesis para verificar si la marca cumple con la norma.
+    \item La cantidad de proteína no debe variar más de 0.1 gramos, en caso contrario se debe ajustar el proceso de producción. Plantee y resuelva una prueba de hipótesis para tomar una decisión sonre el proceso de producción.
+  \end{enumerate}
+  
+  \item El nivel de plomo en sangre se mide microgramos por decilitro (mcg/dL). Se miden los niveles de plomo en sangre en 50 personas, obteniendo los siguientes resultados:
+
+  \begin{enumerate}
+    \item Obtenga el estimador para la media y el estimador para la varianza.
+    \item Obtenga un intervalo de 99\% de confianza para la media.
+    \item Obtenga un intervalo de 95\% de confianza para la varianza.
+    \item El plomo (Pb) es un elemento que no resulta de utilidad para el organismo del ser humano. Sin embargo, se considera aceptable hasta 10 mcg/dL. Plantee y resuelva una prueba de hipótesis para verificar si la población está en el límite aceptable.
+    \item El gobierno se plantea el siguiente escenario: Si el nivel de plomo es menor a 10 y varía menos que 1.5 considerará que no hay un problema de salud. Plantee las pruebas de hipótesis necesarias para tomar una decisión sobre el estado de la salud en la población.
+  \end{enumerate}
+\end{enumerate}
+
+\newpage
+\section*{C\'odigo en R}
+
+\begin{lstlisting}
+ 
+\end{lstlisting}
+
+\end{document}

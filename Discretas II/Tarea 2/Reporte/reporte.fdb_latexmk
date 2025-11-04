@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1762138531.04599 "/home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 1/Reporte/reporte.tex" "reporte.pdf" "reporte" 1762138531.9485 0
-  "/home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 1/Reporte/reporte.tex" 1762043603.9479 7568 bdf6f9d0baf03b888a152d24ed650ed6 ""
+["pdflatex"] 1762138811.24384 "/home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 2/Reporte/reporte.tex" "reporte.pdf" "reporte" 1762138812.15331 0
+  "/home/jorge/Documentos/UAM/25-O/Discretas II/Tarea 2/Reporte/reporte.tex" 1762138810.56317 7570 ffcb6b6f8465b3de5385641d5a51a83d ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/tcrm1200.tfm" 1136768653 1536 74b7293ec3713bb7fdca8dd1bd1f469c ""
@@ -82,8 +82,8 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1762117904 5528174 4c9bfaa6fbda8f6b30ea14486af6d170 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1762118073 3633714 757926150f4cd88f3bbee027d2d28da4 ""
   "/usr/local/texlive/2025/texmf.cnf" 1762117896.78006 455 5b996dcaa0eb4ef14a83b026bc0a008c ""
-  "reporte.aux" 1762138531.81229 232 24afd9b12cb36b06a4fa8c1b17b2b49b "pdflatex"
-  "reporte.tex" 1762043603.9479 7568 bdf6f9d0baf03b888a152d24ed650ed6 ""
+  "reporte.aux" 1762138812.05981 232 24afd9b12cb36b06a4fa8c1b17b2b49b "pdflatex"
+  "reporte.tex" 1762138810.56317 7570 ffcb6b6f8465b3de5385641d5a51a83d ""
   (generated)
   "reporte.aux"
   "reporte.log"
