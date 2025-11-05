@@ -40,20 +40,208 @@ Ejercicios 3}
   
   \begin{enumerate}
     \item Obtenga el estimador para la media y el estimador para la varianza.
+    \begin{lstlisting}
+      media <- mean(datos)
+      varianza <- var(datos)
+    \end{lstlisting}
+    Para obtener los estimadores para la media y la varianza, se usan las funciones que se ven anteriormente. Esas líneas permiten tener variables con los valores de los estimadores de la media y la varianza. En este caso los valores son: $ media = 3.0796$ y $ varianza = 0.04287 $
+    \\
+
     \item Obtenga un intervalo de 99\% de confianza para la media.
+    Para poder obtener el intervalo necesitamos declarar dos variables: n y alpha. Corresponden al número de datos y el porcentaje de confianza, en este caso 0.01. La fórmula para determinar el intervalo para una media con la varianza desconocida es:
+    
+    \[ \overline{X} \pm t_{\frac{\alpha}{2},n-1} * \frac{\mathcal{S}}{\sqrt{n}}  \]
+    
+    La fórmula en R se usa de la siguiente manera:
+
+    \begin{lstlisting}
+      qt <- qt(1-alpha/2,df=n-1)
+      cota_inferior <- media - (qt*sqrt(varianza/n))
+      cota_superior <- media + (qt*sqrt(varianza/n))
+    \end{lstlisting}
+
+    Lo que nos da el intervalo para la media de  \( (2.9638 , 3.1954) \)
+    \\
     \item Obtenga un intervalo de 95\% de confianza para la varianza.
+    El primer paso es declara la variable alpha con el valor 0.05. La fórmula para determinar el intervalo para la varianza es:
+    
+    \[ \frac{(n-1)*\mathcal{S}^2}{q_{1-\frac{\alpha}{2}}},\frac{(n-1)*\mathcal{S}^2}{q_{\frac{\alpha}{2}}}  \]
+    
+    La fórmula en R se usa de la siguiente manera:
+
+    \begin{lstlisting}
+      qchi_inf <- qchisq(alpha/2,df=n-1)
+      qchi_sup <- qchisq(1-alpha/2,df=n-1)
+
+      cota_inferior <- (n-1)*varianza/qchi_inf
+      cota_superior <- (n-1)*varianza/qchi_sup
+    \end{lstlisting}
+
+    Lo que nos da el intervalo para la varianza de  \( (0.083 , 0.0261) \)
+    \\
+
     \item Por norma, la leche entera debe tener al menos 3 gramos de proteína por cada 100 ml. Plantee y resuelva una prueba de hipótesis para verificar si la marca cumple con la norma.
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      En este caso necesitamos que la leche tenga al menos 3 gramos de proteína por cada 100 ml. Por lo que nuestras hipótesis quedan de la siguiente manera:
+      \[
+        \begin{array}{c}
+          H_o : \mu \geq 3 \\
+          H_a : \mu < 3 \\
+          \\
+          \mu_0 = 3
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      La fórmula para el estadístico de prueba es:
+      \[
+        t_0=\frac{\overline{X}-\mu_0}{\mathcal{S}/\sqrt{n}}
+      \]
+      
+      \item \textbf{Criterio de rechazo}
+      Se rechaza \(H_o\) si: \(t_0<-t_{\alpha},n-1\). Esta comparación la ponemos en R y se ve de la siguiente manera:
+      \begin{lstlisting}
+        t0 <- (media-u0)/(sqrt(varianza/n))
+        t <- -qt(1-alpha,n-1)
+      \end{lstlisting}
+
+      Los valores obtenidos son: \(t_0=1.9222\) y \(t=-1.7109\). Ahora nos hacemos la pregunta si \(t_0<t\). De acuerdo a los valores esto no es cierto, por lo que no se rechaza \(H_o\). Esto significa que no hay evidencia estadística que indique que \(\mu<3\). Hay que considerar que el valor de alpha usado para este esta prueba de hipótesis fue de 0.05.
+    \end{enumerate}
+
     \item La cantidad de proteína no debe variar más de 0.1 gramos, en caso contrario se debe ajustar el proceso de producción. Plantee y resuelva una prueba de hipótesis para tomar una decisión sonre el proceso de producción.
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      En este caso necesitamos que la cantidad de proteína no varíe más de 0.1 gramos. Por lo que nuestras hipótesis quedan de la siguiente manera:
+      \[
+        \begin{array}{c}
+          H_o : \sigma^2 = 0.1 \\
+          H_a : \sigma^2 < 0.1 \\
+          \\
+          \sigma^2_0 = 0.1
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      La fórmula para el estadístico de prueba es:
+      \[
+        X^2_0=\frac{(n-1)\mathcal{S}^2}{\sigma^2_0}
+      \]
+      
+      \item \textbf{Criterio de rechazo}
+      Se rechaza \(H_o\) si: \(X^2_0<X^2_{1-\alpha},n-1\). Esta comparación la ponemos en R y se ve de la siguiente manera:
+      \begin{lstlisting}
+        X0 <- (n-1)*varianza/s0
+        X <- qchisq(alpha,n-1)
+      \end{lstlisting}
+
+      Los valores obtenidos son: \(X^2_0=10.289\) y \(X=13.8484\). Ahora nos hacemos la pregunta si \(X^2_0<X\). De acuerdo a los valores esto es cierto, por lo que se rechaza \(H_o\). Esto significa que hay evidencia estadística que indica que \(\sigma^2<0.1\). Por lo que no hay que modificar el proceso de producción. Hay que considerar que el valor de alpha usado para este esta prueba de hipótesis fue de 0.05.
+    \end{enumerate}
   \end{enumerate}
   
   \item El nivel de plomo en sangre se mide microgramos por decilitro (mcg/dL). Se miden los niveles de plomo en sangre en 50 personas, obteniendo los siguientes resultados:
 
   \begin{enumerate}
     \item Obtenga el estimador para la media y el estimador para la varianza.
+    \begin{lstlisting}
+      media <- mean(datos)
+      varianza <- var(datos)
+    \end{lstlisting}
+    Para obtener los estimadores para la media y la varianza, se usan las funciones que se ven anteriormente. Esas líneas permiten tener variables con los valores de los estimadores de la media y la varianza. En este caso los valores son: $ media = 10.144$ y $ varianza = 4.438 $
+    \\
+
     \item Obtenga un intervalo de 99\% de confianza para la media.
+    Para poder obtener el intervalo necesitamos declarar dos variables: n y alpha. Corresponden al número de datos y el porcentaje de confianza, en este caso 0.01. La fórmula para determinar el intervalo para una media con la varianza desconocida es:
+    
+    \[ \overline{X} \pm t_{\frac{\alpha}{2},n-1} * \frac{\mathcal{S}}{\sqrt{n}}  \]
+    
+    La fórmula en R se usa de la siguiente manera:
+
+    \begin{lstlisting}
+      qt <- qt(1-alpha/2,df=n-1)
+      cota_inferior <- media - (qt*sqrt(varianza/n))
+      cota_superior <- media + (qt*sqrt(varianza/n))
+    \end{lstlisting}
+
+    Lo que nos da el intervalo para la media de  \( (9.3366 , 10.9514) \)
+    \\
+
     \item Obtenga un intervalo de 95\% de confianza para la varianza.
+    El primer paso es declara la variable alpha con el valor 0.05. La fórmula para determinar el intervalo para la varianza es:
+    
+    \[ \frac{(n-1)*\mathcal{S}^2}{q_{1-\frac{\alpha}{2}}},\frac{(n-1)*\mathcal{S}^2}{q_{\frac{\alpha}{2}}}  \]
+    
+    La fórmula en R se usa de la siguiente manera:
+
+    \begin{lstlisting}
+      qchi_inf <- qchisq(alpha/2,df=n-1)
+      qchi_sup <- qchisq(1-alpha/2,df=n-1)
+
+      cota_inferior <- (n-1)*varianza/qchi_inf
+      cota_superior <- (n-1)*varianza/qchi_sup
+    \end{lstlisting}
+
+    Lo que nos da el intervalo para la varianza de  \( (4.66 , 4.5428) \)
+    \\
+
     \item El plomo (Pb) es un elemento que no resulta de utilidad para el organismo del ser humano. Sin embargo, se considera aceptable hasta 10 mcg/dL. Plantee y resuelva una prueba de hipótesis para verificar si la población está en el límite aceptable.
-    \item El gobierno se plantea el siguiente escenario: Si el nivel de plomo es menor a 10 y varía menos que 1.5 considerará que no hay un problema de salud. Plantee las pruebas de hipótesis necesarias para tomar una decisión sobre el estado de la salud en la población.
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      En este caso necesitamos que haya hasta \(10 \mu g/dL\). Por lo que nuestras hipótesis quedan de la siguiente manera:
+      \[
+        \begin{array}{c}
+          H_o : \mu = 10 \\
+          H_a : \mu < 10 \\
+          \\
+          \mu_0 = 10
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      La fórmula para el estadístico de prueba es:
+      \[
+        t_0=\frac{\overline{X}-\mu_0}{\mathcal{S}/\sqrt{n}}
+      \]
+      
+      \item \textbf{Criterio de rechazo}
+      Se rechaza \(H_o\) si: \(t_0<-t_{\alpha},n-1\). Esta comparación la ponemos en R y se ve de la siguiente manera:
+      \begin{lstlisting}
+        t0 <- (media-u0)/(sqrt(varianza/n))
+        t <- -qt(1-alpha,n-1)
+      \end{lstlisting}
+
+      Los valores obtenidos son: \(t_0=0.478\) y \(t=1.6766\). Ahora nos hacemos la pregunta si \(t_0<t\). De acuerdo a los valores esto es cierto, por lo que se rechaza \(H_o\). Esto significa que hay evidencia estadística que indique que \(\mu<10\). Hay que considerar que el valor de alpha usado para este esta prueba de hipótesis fue de 0.05.
+    \end{enumerate}
+
+
+    \item El gobierno se plantea el siguiente escenario: Si el nivel de plomo es menor a 10 y varía menos que 1.5 considerará que no hay un problema de salud. Plantee las pruebas de hipótesis necesarias para tomar una decisión sobre el estado de la salud en la población. Del punto anterior podemos saber que el nivel de plomo es menor a 10. Por lo que la siguiente prueba de hipótesis será respecto a la variabilidad menor a 1.5
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      En este caso necesitamos que la cantidad de plomo no varíe más de 1.5 gramos. Por lo que nuestras hipótesis quedan de la siguiente manera:
+      \[
+        \begin{array}{c}
+          H_o : \sigma^2 = 1.5 \\
+          H_a : \sigma^2 < 1.5 \\
+          \\
+          \sigma^2_0 = 1.5
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      La fórmula para el estadístico de prueba es:
+      \[
+        X^2_0=\frac{(n-1)\mathcal{S}^2}{\sigma^2_0}
+      \]
+      
+      \item \textbf{Criterio de rechazo}
+      Se rechaza \(H_o\) si: \(X^2_0<X^2_{1-\alpha},n-1\). Esta comparación la ponemos en R y se ve de la siguiente manera:
+      \begin{lstlisting}
+        X0 <- (n-1)*varianza/s0
+        X <- qchisq(alpha,n-1)
+      \end{lstlisting}
+
+      Los valores obtenidos son: \(X^2_0=148.2555\) y \(X=66.3386\). Ahora nos hacemos la pregunta si \(X^2_0<X\). De acuerdo a los valores esto no es cierto, por lo que no se rechaza \(H_o\). Esto significa que no hay evidencia estadística que indica que \(\sigma^2<1.5\). Aunque se probó que la media tiene un valor menor a 10, el valor de la varianza no lo es. Por lo que hay que hacer algún cambio para mejorar los niveles. Hay que considerar que el valor de alpha usado para este esta prueba de hipótesis fue de 0.05.
+    \end{enumerate}
   \end{enumerate}
 \end{enumerate}
 
@@ -61,7 +249,168 @@ Ejercicios 3}
 \section*{C\'odigo en R}
 
 \begin{lstlisting}
- 
+# Ejercicio 1
+# Carga de datos
+
+datos <- c(3.33, 3.35, 3.11, 3.48, 2.87, 3.10, 3.32, 2.99, 3.30, 2.63, 
+              3.10, 3.37, 2.95, 3.02, 2.93, 2.77, 3.05, 3.26, 3.16, 2.96, 
+              2.85, 2.96, 3.06, 2.93, 3.14)
+
+
+# a) Estimador para la media y el estimador para la varianza
+
+media <- mean(datos)
+varianza <- var(datos)
+
+# b) Intervalo de 99% de confianza para la media
+n <- length(datos)
+alpha <- 0.01
+qt <- qt(1-alpha/2,df=n-1)
+cota_inferior <- media - (qt*sqrt(varianza/n))
+cota_superior <- media + (qt*sqrt(varianza/n))
+
+print(paste("IC 99% para media:", 
+            round(cota_inferior, 4), "a", round(cota_superior, 4)))
+
+
+# c) Intervalo de 95% de confianza para la varianza
+alpha <- 0.05
+qchi_inf <- qchisq(alpha/2,df=n-1)
+qchi_sup <- qchisq(1-alpha/2,df=n-1)
+
+cota_inferior <- (n-1)*varianza/qchi_inf
+cota_superior <- (n-1)*varianza/qchi_sup
+
+print(paste("IC 95% para varianza:", 
+            round(cota_inferior, 4), "a", round(cota_superior, 4)))
+
+
+# d) Por norma la leche entera debe tener al menos 3 gramos de proteina por
+# cada 100 ml. Plantee y resuelva una prueba de hipotesis para tomar una 
+# decision sobre el proceso de produccion
+
+# 1. Hipotesis
+# Ho : u >= 3
+# Ha : u < 3
+u0 <- 3
+
+# 2. Estadistico de prueba
+t0 <- (media-u0)/(sqrt(varianza/n))
+
+# 3. Criterio de rechazo
+# Se rechaza Ho si t0 < -t(alpha),n-1
+t <- -qt(1-alpha,n-1)
+
+print(paste("t0 =", round(t0,4)," < ",round(t,4),"?"))
+
+# No, por lo tanto no se rechaza Ho, lo que significa que no hay evidencia
+# estadistica que indique que u < 3
+
+
+# e) La cantidad de proteina no debe variar mas de 0.1 gramos, en caso contrario
+# se debe ajustar le proceso de produccion. Plantee y resuelva una prueba de
+#hipotesis para tomar una decision sobre el proceso de produccion
+
+# 1. Hipotesis
+# Ho : s = 0.1
+# Ha : s < 0.1 
+s0 <- 0.1
+
+# 2. Estadistico de prueba
+X0 <- (n-1)*varianza/s0
+
+# 3. Criterio de rechazo
+# Se rechaza Ho si X0 < X(1-alpha),n-1
+X <- qchisq(alpha,n-1)
+
+print(paste("x0 =",round(X0,4)," < ",round(X,4),"?"))
+
+# Si, por lo tanto se rechaza Ho. Lo que significa que hay evidencia de que
+# s < 0.1, es decir, no hay que cambiar el proceso de produccion
+
+
+# Ejercicio 2
+# Carga de datos
+
+datos <- c(8.4, 7.1, 13.1, 12.3, 11.2, 7.5, 6.7, 11.7, 8.0, 16.3, 
+           10.0, 11.2, 9.8, 12.7, 13.2, 13.5, 8.0, 9.4, 11.8, 10.7, 
+           10.8, 11.2, 9.7, 9.7, 9.6, 7.8, 7.8, 12.1, 6.6, 10.7, 
+           11.2, 10.8, 6.5, 9.4, 13.9, 8.9, 8.1, 8.5, 10.9, 8.7, 
+           11.4, 11.3, 10.0, 11.3, 13.4, 9.7, 8.0, 8.7, 8.7, 9.2)
+
+
+# a) Estimador para la media y el estimador para la varianza
+media <- mean(datos)
+varianza <- var(datos)
+
+
+# b) Intervalo de 99% de confianza para la media
+n <- length(datos)
+alpha <- 0.01
+qt <- qt(1-alpha/2,df=n-1)
+cota_inferior <- media - (qt*sqrt(varianza/n))
+cota_superior <- media + (qt*sqrt(varianza/n))
+
+print(paste("IC 99% para media:", 
+            round(cota_inferior, 4), "a", round(cota_superior, 4)))
+
+
+# c) Intervalo de 95% de confianza para la varianza
+alpha <- 0.95
+qchi_inf <- qchisq(alpha/2,df=n-1)
+qchi_sup <- qchisq(1-alpha/2,df=n-1)
+
+cota_inferior <- (n-1)*varianza/qchi_inf
+cota_superior <- (n-1)*varianza/qchi_sup
+
+print(paste("IC 95% para varianza:", 
+            round(cota_inferior, 4), "a", round(cota_superior, 4)))
+
+
+# d) El plomo (Pb) es un elemento que no resulta de utilidad para el organismo
+# del ser humano. Sin embargo, se considera aceptable hasta 10 mcg/dL. Plantee
+# y resuelva una prueba de hipotesis para verificar si la poblacion esta en el
+# limite aceptable
+
+# 1. Hipotesis
+# Ho : u = 10
+# Ha : u < 10
+u0 <- 10
+
+
+# 2. Estadistico de prueba
+t0 <- (media-u0)/(sqrt(varianza/n))
+
+
+# 3. Criterio de rechazo
+# Se rechaza Ho si t0 < -t(alpha),n-1
+t <- -qt(1-alpha,n-1)
+
+print(paste("t0 =", round(t0,4)," < ",round(t,4),"?"))
+
+# Si, por lo tanto se rechaza Ho, lo que significa que hay evidencia
+# estadistica que indica que u < 10
+
+# e) El gobierno se plantea el siguiente escenario: Si el nivel de plomo es
+# menor a 10 y varia menos que 1.5 considerara que no hay una problema de 
+# salud. Plantee las pruebas de hipotesis necesarias para tomar una 
+# decision sobre el estado de la salud en la poblacion
+
+
+# 1. Hipotesis
+# Ho : s2 = 0.1
+# Ha : s2 < 0.1
+s0 <- 1.5
+
+# 2. Estadistico de prueba
+X0 <- (n-1)*varianza/s0
+
+# 3. Criterio de rechazo
+# Se rechaza Ho si X0 < X(1-alpha),n-1
+X <- qchisq(alpha,n-1)
+
+print(paste("x0 =",round(X0,4)," < ",round(X,4),"?"))
+
 \end{lstlisting}
 
 \end{document}
