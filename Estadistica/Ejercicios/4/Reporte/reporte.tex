@@ -1,0 +1,328 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\geometry{margin=2.5cm}
+
+% Configuración de listings para código R
+\lstset{
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    language=R,
+    showstringspaces=false,
+    columns=flexible
+}
+
+\title{Estadística y Diseño de Experimentos\\
+Ejercicios 4}
+\date{11 de Noviembre, 2025}
+\author{}
+
+\begin{document}
+
+\maketitle
+
+\noindent\textbf{Nombre del alumnx:} \underline{\hspace{0.5cm}Martínez Buenrostro Jorge Rafael\hspace{0.5cm}}
+
+\vspace{1cm}
+
+\begin{enumerate}
+  \item Un estudiante de la UAM-I tiene dos rutas para llegar a la universidad: ruta 1: tomar metro y caminar; ruta 2: tomar metrobús y combi. Un mes elige seguir la ruta 1 y otro mes la ruta 2. Al tomar los tiempos de traslado (en minutos) obtiene los siguientes resultados:
+  
+  \begin{enumerate}
+    \item Considerando que en promedio los tiempos de traslado son iguales, al estudiante le gustaría saber si tienen la misma variación. Plantee una prueba de hipótesis para ayudarlo saber esto. Use $\alpha=0.01$.
+    
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      
+      Queremos verificar si las varianzas de ambas rutas son iguales:
+      \[
+        \begin{array}{c}
+          H_0 : \sigma_1^2 = \sigma_2^2 \\
+          H_a : \sigma_1^2 \neq \sigma_2^2
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      
+      La fórmula para el estadístico de prueba es:
+      \[
+        F_0 = \frac{\mathcal{S}_1^2}{\mathcal{S}_2^2}
+      \]
+      
+      \item \textbf{Criterio de rechazo}
+      
+      Se rechaza $H_0$ si: $F_0 < F_{\alpha/2, n_1-1, n_2-1}$ o $F_0 > F_{1-\alpha/2, n_1-1, n_2-1}$. 
+      
+      Esta comparación la implementamos en R:
+      \begin{lstlisting}
+F0 <- var(Ruta1)/var(Ruta2)
+F_inf <- qf(alpha/2, n1-1, n2-1)
+F_sup <- qf(1-alpha/2, n1-1, n2-1)
+      \end{lstlisting}
+
+      Los valores obtenidos son: $F_0 = 0.4876$, $F_{\alpha/2} = 0.2914$ y $F_{1-\alpha/2} = 3.4318$.
+      
+      Nos preguntamos si $F_0 < F_{\alpha/2}$ o $F_0 > F_{1-\alpha/2}$. De acuerdo a los valores esto no es cierto, por lo que \textbf{no se rechaza} $H_0$. 
+      
+      \textbf{Conclusión:} No hay evidencia estadística que indique que las varianzas son diferentes. Con un nivel de significancia de 0.01, podemos considerar que ambas rutas tienen la misma variabilidad.
+    \end{enumerate}
+
+    \item Si no tienen la misma variabilidad, al estudiante le gustaría elegir la ruta que tenga menos variación. Plantee una prueba de hipótesis para ayudarlo a elegir una opción. Use $\alpha=0.01$.
+    
+    \textit{Nota: Del inciso anterior concluimos que las varianzas son iguales estadísticamente. Sin embargo, para efectos del ejercicio, procedemos a realizar la prueba unilateral.}
+    
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      
+      Observando las varianzas muestrales ($\mathcal{S}_1^2 = 5.6829$ y $\mathcal{S}_2^2 = 8.7748$), probamos si la Ruta 1 tiene menor variabilidad:
+      \[
+        \begin{array}{c}
+          H_0 : \sigma_1^2 = \sigma_2^2 \\
+          H_a : \sigma_1^2 < \sigma_2^2
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      
+      Usamos el mismo estadístico: $F_0 = 0.4876$
+      
+      \item \textbf{Criterio de rechazo}
+      
+      Se rechaza $H_0$ si: $F_0 < F_{1-\alpha, n_1-1, n_2-1}$. 
+      
+      \begin{lstlisting}
+F_crit <- qf(alpha, n1-1, n2-1)
+      \end{lstlisting}
+
+      Los valores obtenidos son: $F_0 = 0.4876$ y $F_{\alpha} = 0.3303$.
+      
+      Nos preguntamos si $F_0 < F_{\alpha}$. De acuerdo a los valores esto no es cierto, por lo que \textbf{no se rechaza} $H_0$. 
+      
+      \textbf{Conclusión:} No hay evidencia estadística suficiente para afirmar que la Ruta 1 tiene menor variabilidad que la Ruta 2. El estudiante no puede tomar una decisión basada en la variabilidad con este nivel de significancia.
+    \end{enumerate}
+  \end{enumerate}
+
+  \newpage
+  
+  \item Se desea comparar el tiempo promedio de espera en las estaciones del Metro de la Ciudad de México, en particular en las líneas 1 y 2. Para esto se promedian los tiempos de espera (en minutos) en las 20 estaciones de la línea 1 y en las 24 estaciones de la línea 2.
+  
+  \begin{enumerate}
+    \item Plantee una prueba de hipótesis para verificar si hay diferencias en los tiempos de espera (puede considerar que las varianzas son iguales). Utilice $\alpha=0.05$.
+    
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      
+      Queremos verificar si los tiempos promedio de espera son diferentes:
+      \[
+        \begin{array}{c}
+          H_0 : \mu_1 = \mu_2 \\
+          H_a : \mu_1 \neq \mu_2
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      
+      Como asumimos varianzas iguales, usamos la varianza pooled:
+      \[
+        S_p = \sqrt{\frac{(n_1-1)\mathcal{S}_1^2 + (n_2-1)\mathcal{S}_2^2}{n_1+n_2-2}}
+      \]
+      
+      Y el estadístico de prueba:
+      \[
+        t_0 = \frac{\overline{X}_1 - \overline{X}_2}{S_p\sqrt{\frac{1}{n_1}+\frac{1}{n_2}}}
+      \]
+      
+      \item \textbf{Criterio de rechazo}
+      
+      Se rechaza $H_0$ si: $|t_0| > t_{\alpha/2, n_1+n_2-2}$. 
+      
+      \begin{lstlisting}
+Sp <- sqrt(((n1-1)*var(Linea1) + (n2-1)*var(Linea2))/(n1+n2-2))
+t0 <- (mean(Linea1) - mean(Linea2))/(Sp*sqrt(1/n1 + 1/n2))
+t_crit <- qt(1-alpha/2, n1+n2-2)
+      \end{lstlisting}
+
+      Los valores obtenidos son: \( \overline{X}_1 = 3.6605\), \(\overline{X}_2 = 3.9958\), \(S_p = 1.0257\), \(t_0 = -1.0798\) y \(t_{critico} = 2.0181\).
+      
+      Nos preguntamos si $|t_0| > t_{critico}$. Tenemos que $|{-1.0798}| = 1.2542 < 2.0181$, por lo que \textbf{no se rechaza} $H_0$. 
+      
+      \textbf{Conclusión:} No hay evidencia estadística que indique que los tiempos promedio de espera son diferentes entre ambas líneas del Metro.
+    \end{enumerate}
+
+    \item Si los tiempos no son iguales, ¿en cuál de las dos líneas es mayor el tiempo de espera según los datos? (Plantee una PH, use $\alpha=0.05$).
+    
+    \textit{Nota: Del inciso anterior concluimos que los tiempos son estadísticamente iguales. Sin embargo, para completar el ejercicio, probamos si la Línea 2 tiene mayor tiempo de espera (como sugieren las medias muestrales).}
+    
+    \begin{enumerate}
+      \item \textbf{Hipótesis}
+      
+      \[
+        \begin{array}{c}
+          H_0 : \mu_1 = \mu_2 \\
+          H_a : \mu_2 > \mu_1
+        \end{array}
+      \]
+
+      \item \textbf{Estadístico de prueba}
+      
+      Usamos el mismo estadístico: $t_0 = -1.2542$
+      
+      \item \textbf{Criterio de rechazo}
+      
+      Se rechaza $H_0$ si: $t_0 > t_{\alpha, n_1+n_2-2}$. 
+      
+      \begin{lstlisting}
+t_crit_unilateral <- qt(1-alpha, n1+n2-2)
+      \end{lstlisting}
+
+      Los valores obtenidos son: $t_0 = -1.2542$ y $-t_{\alpha} = 1.682$.
+      
+      Nos preguntamos si $t_0 < -t_{\alpha}$. Tenemos que $-1.2542 > 1.682$, por lo que \textbf{no se rechaza} $H_0$. 
+      
+      \textbf{Conclusión:} No hay evidencia estadística suficiente para afirmar que el tiempo promedio de espera en la Línea 2 es mayor que en la Línea 1.
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
+
+\newpage
+\section*{Código en R}
+
+\begin{lstlisting}
+## EJERCICIOS 4 - ESTADISTICA Y DISENO DE EXPERIMENTOS ####
+
+# 1) Rutas de transporte a la UAM-I
+
+Ruta1 <- c(47.22, 47.28, 43.66, 41.75, 49.58, 48.71, 45.44, 45.90, 
+           51.60, 46.42, 45.63, 44.48, 46.21, 44.85, 45.28, 45.56, 
+           45.30, 46.82, 43.90, 48.21)
+
+Ruta2 <- c(50.99, 48.99, 50.20, 49.14, 48.64, 47.03, 44.75, 41.74, 
+           48.81, 48.19, 48.96, 42.05, 52.26, 47.70, 47.25, 47.50, 
+           41.84, 45.52, 51.39, 51.64)
+
+# Visualizacion de los datos
+hist(Ruta1, main="Histograma Ruta 1", xlab="Tiempo (min)")
+hist(Ruta2, main="Histograma Ruta 2", xlab="Tiempo (min)")
+boxplot(Ruta1, Ruta2, names=c("Ruta 1", "Ruta 2"), 
+        ylab="Tiempo (min)", main="Comparacion de Rutas")
+
+# a) Prueba de hipotesis para comparar varianzas
+
+# 1. Hipotesis
+# H0: s1^2 = s2^2
+# Ha: s1^2 != s2^2
+
+# 2. Estadistico de prueba
+F0 <- var(Ruta1)/var(Ruta2)
+
+# 3. Criterio de rechazo
+# Se rechaza H0 si F0 < F(a/2, n1-1, n2-1) o F0 > F(1-a/2, n1-1, n2-1)
+alpha <- 0.01
+n1 <- length(Ruta1)
+n2 <- length(Ruta2)
+
+F_inf <- qf(alpha/2, n1-1, n2-1)
+F_sup <- qf(1-alpha/2, n1-1, n2-1)
+
+print("=== Ejercicio 1a ===")
+print(paste("F0 =", round(F0, 4)))
+print(paste("Limite inferior F(a/2) =", round(F_inf, 4)))
+print(paste("Limite superior F(1-a/2) =", round(F_sup, 4)))
+print(paste("Se rechaza H0?:", F0 < F_inf | F0 > F_sup))
+
+# b) Si no tienen la misma variabilidad, elegir la ruta con menor variacion
+
+# 1. Hipotesis (probamos si s1^2 < s2^2)
+# H0: s1^2 = s2^2
+# Ha: s1^2 < s2^2
+
+# 2. Estadistico de prueba (ya calculado: F0)
+
+# 3. Criterio de rechazo
+# Se rechaza H0 si F0 < F(a, n1-1, n2-1)
+F_crit <- qf(alpha, n1-1, n2-1)
+
+print("\n=== Ejercicio 1b ===")
+print(paste("F0 =", round(F0, 4)))
+print(paste("F critico =", round(F_crit, 4)))
+print(paste("F0 < F_critico?:", F0 < F_crit))
+print(paste("Varianza Ruta 1:", round(var(Ruta1), 4)))
+print(paste("Varianza Ruta 2:", round(var(Ruta2), 4)))
+
+
+# 2) Tiempo de espera en el Metro
+
+Linea1 <- c(4.24, 2.62, 2.73, 3.83, 3.98, 4.96, 5.10, 4.24, 2.38, 3.90, 
+            3.86, 3.69, 2.98, 3.30, 3.11, 4.09, 4.15, 4.50, 1.51, 4.04)
+
+Linea2 <- c(4.84, 5.19, 2.61, 2.22, 3.77, 4.26, 5.45, 4.24, 4.21, 3.45, 
+            6.78, 3.56, 4.52, 4.32, 1.86, 4.72, 3.87, 3.10, 2.96, 2.25, 
+            4.29, 4.39, 4.80, 4.24)
+
+# Visualizacion de los datos
+hist(Linea1, main="Histograma Linea 1", xlab="Tiempo de espera (min)")
+hist(Linea2, main="Histograma Linea 2", xlab="Tiempo de espera (min)")
+boxplot(Linea1, Linea2, names=c("Linea 1", "Linea 2"), 
+        ylab="Tiempo de espera (min)", main="Comparacion de Lineas")
+
+# a) Prueba de hipotesis para comparar medias (varianzas iguales)
+
+# 1. Hipotesis
+# H0: u1 = u2
+# Ha: u1 != u2
+
+# 2. Estadistico de prueba
+n1 <- length(Linea1)
+n2 <- length(Linea2)
+
+Sp <- sqrt(((n1-1)*var(Linea1) + (n2-1)*var(Linea2))/(n1+n2-2))
+t0 <- (mean(Linea1) - mean(Linea2))/(Sp*sqrt(1/n1 + 1/n2))
+
+# 3. Criterio de rechazo
+# Se rechaza H0 si |t0| > t(1-a/2, n1+n2-2)
+alpha <- 0.05
+t_crit <- qt(1-alpha/2, n1+n2-2)
+
+print("\n=== Ejercicio 2a ===")
+print(paste("Media Linea 1:", round(mean(Linea1), 4)))
+print(paste("Media Linea 2:", round(mean(Linea2), 4)))
+print(paste("Sp =", round(Sp, 4)))
+print(paste("t0 =", round(t0, 4)))
+print(paste("t critico =", round(t_crit, 4)))
+print(paste("|t0| > t_critico?:", abs(t0) > t_crit))
+
+# b) Si los tiempos no son iguales, en cual linea es mayor?
+# Probamos si u2 > u1 (Linea 2 tiene mayor tiempo de espera)
+
+# 1. Hipotesis
+# H0: u1 = u2
+# Ha: u2 > u1 (equivalente a u1 < u2)
+
+# 2. Estadistico de prueba (ya calculado: t0)
+
+# 3. Criterio de rechazo
+# Se rechaza H0 si t0 < -t(a, n1+n2-2)
+t_crit_unilateral <- qt(1-alpha, n1+n2-2)
+
+print("\n=== Ejercicio 2b ===")
+print(paste("t0 =", round(t0, 4)))
+print(paste("-t critico =", round(-t_crit_unilateral, 4)))
+print(paste("t0 < -t_critico?:", t0 < -t_crit_unilateral))
+if(t0 < -t_crit_unilateral) {
+  print("Conclusion: Hay evidencia de que la Linea 2 tiene mayor tiempo de espera")
+} else {
+  print("Conclusion: No hay evidencia suficiente de diferencia")
+}
+\end{lstlisting}
+
+\end{document}

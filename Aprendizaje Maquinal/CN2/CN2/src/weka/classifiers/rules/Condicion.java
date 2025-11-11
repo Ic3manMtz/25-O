@@ -2,21 +2,31 @@ package weka.classifiers.rules;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 import weka.core.Instance;
 import weka.core.Instances;
 
 import weka.core.converters.ConverterUtils.DataSource;
 
-public class Condicion {
+public class Condicion implements Serializable{
 
     private int atributoIndex; // Índice del atributo
     private String valor;      // Valor esperado del atributo
+    private static final long serialVersionUID = 1L; 
 
     // Constructor
     public Condicion(int atributoIndex, String valor) {
         this.atributoIndex = atributoIndex;
         this.valor = valor;
+    }
+
+    public int getAtributoIndex(){
+        return atributoIndex;
+    }
+
+    public String getValor(){
+        return valor;
     }
 
     /**
