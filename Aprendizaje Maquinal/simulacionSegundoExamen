@@ -1,0 +1,30 @@
+1) Los métodos de ensamble se refieren a:
+	R.  Utilizar varios aprendices (del mismo o tipos diferentes) de manera conjunta
+	
+2) La confianza mide
+	R. Porcentaje de casos en los que una regla es válida
+
+3) El algoritmo A priori empezamos con
+	R. Los elementos que tienen el soporte mínimo
+
+4) En Boosting
+	R. Se usa un mismo aprendiz donde en cada ciclo se modifican los pesos de los ejemplos de acuerdo a su error
+
+5) Para los datos de la tabla diga cual sería P(Play=Yes|Cool)
+	R. 1
+
+6) Para resolver la separación de clases lineas se usa
+	R. La recta con mayor margen entre las clases
+
+7) El soporte mide
+	R. Número de transacciones en que aparece el elemento
+
+8) Cuál de los siguientes no es una tarea del aprendizaje maquinal
+	R: Optimización
+
+9) ¿Cuántos tipos de capas hay en una Red Neuronal?
+	R. 3
+
+10) En Bagging
+	R. Se usa el mismo tipo de aprendiz con distintas muestras de los datos de entrada
+
