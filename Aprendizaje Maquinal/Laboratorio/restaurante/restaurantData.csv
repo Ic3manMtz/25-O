@@ -1,4 +1,4 @@
-class, alternate, bar, fri/sat, hungry, patrons, price, raining, reservation, type, waitestimate
+class,alternate,bar,fri/sat,hungry,patrons,price,raining,reservation,type, waitestimate
 
  wontwait, no, no, no, yes, none, DDD, no, yes, thai, 0
  willwait, yes, yes, no, yes, some, DDD, no, no, thai, 0
