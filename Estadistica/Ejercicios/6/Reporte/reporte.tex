@@ -113,12 +113,61 @@ SILO & \multicolumn{1}{l|}{C} & 3.3   & 3.8    & 3.6       & 3.4    & 3.8       
 
   \item Usando un nivel de significancia \(\alpha=0.01\), decida si se rechaza o no la hipótesis nula en el ANOVA. \textbf{Dé una interpretación}. 
   
-
-  \item Si se rechaza la hipótesis nula en el inciso anterior, haga las múltiples comparaciones para las medias mediante el método LSD. Utilice para este punto, \(\alpha=0.05\). \textbf{Dé una interpretación}
+  Primero tomamos el valor de $F_0$ de la tabla ANOVA, $F_0 = 36.276$. Se rechaza $H_0$ si $F_0 > F_{\alpha,(m-1),(m-1)(b-1)}$. El valor del cuantil lo podemos obtener en R con el siguiente código: \texttt{qf(1 - 0.01, 4, 16)} $= 4.336$, lo que nos da una región de rechazo designada $36.276 > 4.336$. Por lo tanto, se rechaza la hipótesis nula $H_0$. Esto significa que existen diferencias significativas entre al menos dos de los silos de almacenamiento en cuanto a su temperatura promedio. Adicionalmente, el p-valor obtenido $(7.77\times10^{-8})$ es mucho menor que $\alpha = 0.01$, lo que confirma esta decisión. En cuanto al factor bloque (día), con $F_0 = 0.953$ y p-valor $= 0.46$, no se rechaza la hipótesis nula, indicando que el día de medición no tiene un efecto significativo sobre la temperatura.
   
 
+  \item Si se rechaza la hipótesis nula en el inciso anterior, haga las múltiples comparaciones para las medias mediante el método LSD. Utilice para este punto, \(\alpha=0.05\). \textbf{Dé una interpretación}
+  Para hacer las comparaciones múltiples, se utiliza el siguiente código en R:
+  \begin{lstlisting}
+    # A vs B 
+    lAB <- abs(mA-mB) / sqrt(2*CM_ERROR/b)
+    # A vs C
+    lAC <- abs(mA-mC) / sqrt(2*CM_ERROR/b)
+    # A vs D
+    lAD <- abs(mA-mD) / sqrt(2*CM_ERROR/b)
+    # A vs E
+    lAE <- abs(mA-mE) / sqrt(2*CM_ERROR/b)
+    # B vs C
+    lBC <- abs(mB-mC) / sqrt(2*CM_ERROR/b)
+    # B vs D
+    lBD <- abs(mB-mD) / sqrt(2*CM_ERROR/b)
+    # B vs E
+    lBE <- abs(mB-mE) / sqrt(2*CM_ERROR/b)
+    # C vs D
+    lCD <- abs(mC-mD) / sqrt(2*CM_ERROR/b)
+    # C vs E
+    lCE <- abs(mC-mE) / sqrt(2*CM_ERROR/b)
+    # D vs E
+    lDE <- abs(mD-mE) / sqrt(2*CM_ERROR/b)
+  \end{lstlisting}
+  Estas comparaciones nos da el valor de \it{l} para cada una de las comparaciones. Ahora se necesita el valor del cuantil \( t_{\frac{\alpha}{2},N-m} \). Recorndando que se rechaza \(H_0\) si \(|l| > t_{\frac{\alpha}{2},N-m}\).
+
+  Las comparaciones son las siguientes:
+  \begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Comparación} & \textbf{Estadístico } $l$ & \textbf{Valor crítico} & \textbf{¿Significativo?} \\ \hline
+    A vs B & 0.800 & 2.120 & No \\ 
+    A vs C & 2.577 & 2.120 & Si * \\ 
+    A vs D & 8.088 & 2.120 & Sí * \\ 
+    A vs E & 1.422 & 2.120 & No \\ 
+    B vs C & 1.778 & 2.120 & No \\ 
+    B vs D & 8.888 & 2.120 & Sí * \\ 
+    B vs E & 0.622 & 2.120 & No \\ 
+    C vs D & 10.665 & 2.120 & Sí * \\ 
+    C vs E & 1.155 & 2.120 & No \\ 
+    D vs E & 9.510 & 2.120 & Sí * \\ \bottomrule
+  \end{tabular}
+  \end{table}
+  El silo D es significativamente diferente de todos los demás silos (todas las comparaciones con D resultaron significativas). Mientras que los silos A, B, C y E son estadísticamente similares entre sí.
 
   \item Escriba sus \textbf{conclusiones} para este problema.
+  \begin{enumerate}
+    \item Del diagrama de cajas se observa que el Silo D presenta temperaturas notablemente más altas que los demás silos, mientras que los silos A, B, C y E tienen temperaturas más bajas y similares entre sí.
+    \item El análisis de ANOVA para el factor de tratamiento (silos) se rechazó la hipótesis nula. Esto significa que al menos un silo tiene temperatura promedio diferente a los demás. Para el factor de bloque (días), no se rechazó la hipótesis nula, indicando que el día de medición no afecta significativamente la temperatura.
+    \item Las comparaciones múltiples encontraron que las diferencias significativas están en las comparaciones con el silo D. Este silo tiene temperaturas significativamente más altas que los otros silos, lo que sugiere un posible problema de almacenamiento que debe ser investigado.
+  \end{enumerate}
 
   Estadístico \textit{l} para las comparaciones múltiples con método LSD:
   \[
@@ -131,7 +180,143 @@ SILO & \multicolumn{1}{l|}{C} & 3.3   & 3.8    & 3.6       & 3.4    & 3.8       
 \section*{Código en R}
 
 \begin{lstlisting}
+## Ejercicio 6
 
+# Carga de datos
+Silo_A <- c(4.3, 4.0, 4.3, 3.8, 4.4)
+Silo_B <- c(4.4, 4.3, 3.4, 4.0, 3.8)
+Silo_C <- c(3.3, 3.8, 3.6, 3.4, 3.8)
+Silo_D <- c(6.6, 6.0, 6.2, 5.5, 5.6)
+Silo_E <- c(3.4, 4.4, 3.6, 3.8, 4.0)
+
+# 1. Diagramas de caja
+boxplot(Silo_A,Silo_B,Silo_C,Silo_D,Silo_E,col=c('red','forestgreen','blue','gold','orange'))
+
+# 2. Medidas importantes
+Silo <- rep(c('A', 'B', 'C', 'D', 'E'), each = 5)
+Dia <- rep(c('Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes'), 5)
+Temperatura <- c(4.3, 4.0, 4.3, 3.8, 4.4,  # Silo A
+                 4.4, 4.3, 3.4, 4.0, 3.8,  # Silo B
+                 3.3, 3.8, 3.6, 3.4, 3.8,  # Silo C
+                 6.6, 6.0, 6.2, 5.5, 5.6,  # Silo D
+                 3.4, 4.4, 3.6, 3.8, 4.0)  # Silo E
+
+DatosSilos <- data.frame(SILO = as.factor(Silo),
+                         DIA = as.factor(Dia),
+                         TEMP = Temperatura)
+
+m <- length(unique(DatosSilos$SILO))  # Numero de tratamientos
+b <- length(unique(DatosSilos$DIA))   # Numero de bloques
+n_i <- b  # Numero de datos por tratamiento
+N <- nrow(DatosSilos)  # Total de datos
+
+cat("Numero de tratamientos (silos), m =", m, "\n")
+cat("Numero de bloques (dias), b =", b, "\n")
+cat("Numero de datos en cada tratamiento, n_i =", n_i, "\n")
+cat("Numero total de datos, N =", N, "\n\n")
+
+mA <- mean(Silo_A); mB <- mean(Silo_B); mC <- mean(Silo_C)
+mD <- mean(Silo_D); mE <- mean(Silo_E)
+
+vA <- var(Silo_A); vB <- var(Silo_B); vC <- var(Silo_C)
+vD <- var(Silo_D); vE <- var(Silo_E)
+cat("Medias muestrales",mA,mB,mC,mD,mE)
+
+# 3. ANOVA
+anovaSilos <- aov(TEMP ~ SILO + DIA, data = DatosSilos)
+
+resumen <- summary(anovaSilos)
+
+tabla_anova <- resumen[[1]]
+
+# Sumas de cuadrados
+SC_TRAT <- tabla_anova["SILO", "Sum Sq"]
+SC_BLOQ <- tabla_anova["DIA", "Sum Sq"]
+SC_ERROR <- tabla_anova["Residuals", "Sum Sq"]
+
+# Grados de libertad
+gl_TRAT <- tabla_anova["SILO", "Df"]
+gl_BLOQ <- tabla_anova["DIA", "Df"]
+gl_ERROR <- tabla_anova["Residuals", "Df"]
+
+# Cuadrados medios
+CM_TRAT <- tabla_anova["SILO", "Mean Sq"]
+CM_BLOQ <- tabla_anova["DIA", "Mean Sq"]
+CM_ERROR <- tabla_anova["Residuals", "Mean Sq"]
+
+# Estadisticos F
+F_TRAT <- tabla_anova["SILO", "F value"]
+F_BLOQ <- tabla_anova["DIA", "F value"]
+
+# p-valores
+p_valor_TRAT <- 1-pf(F_TRAT,m-1,(m-1)*(b-1))
+p_valor_BLOQ <- 1-pf(F_BLOQ,m-1,(m-1)*(b-1))
+
+# 4. Decision con alpha=0.01
+alpha <- 0.01
+
+cat("Para TRATAMIENTOS (Silos):\n")
+if(p_valor_TRAT < alpha) {
+  cat("  Decision: RECHAZAMOS H0\n")
+  cat("  Interpretacion: Existe evidencia significativa de que al menos\n")
+  cat("  un silo tiene temperatura promedio diferente a los demas.\n\n")
+  rechazar_H0 <- TRUE
+} else {
+  cat("  Decision: NO RECHAZAMOS H0\n")
+  cat("  Interpretacion: No hay evidencia suficiente para concluir\n")
+  cat("  que existen diferencias entre las temperaturas de los silos.\n\n")
+  rechazar_H0 <- FALSE
+}
+
+cat("Para BLOQUES (Dias):\n")
+if(p_valor_BLOQ < alpha) {
+  cat("  Decision: RECHAZAMOS H0\n")
+  cat("  Interpretacion: El dia de la semana afecta significativamente\n")
+  cat("  la temperatura registrada.\n\n")
+} else {
+  cat("  Decision: NO RECHAZAMOS H0\n")
+  cat("  Interpretacion: El dia de la semana no afecta significativamente\n")
+  cat("  la temperatura registrada.\n\n")
+}
+
+# 5. Comparacion LSD
+alpha_lsd <- 0.05
+
+
+# A vs B 
+lAB <- abs(mA-mB) / sqrt(2*CM_ERROR/b)
+# A vs C
+lAC <- abs(mA-mC) / sqrt(2*CM_ERROR/b)
+# A vs D
+lAD <- abs(mA-mD) / sqrt(2*CM_ERROR/b)
+# A vs E
+lAE <- abs(mA-mE) / sqrt(2*CM_ERROR/b)
+# B vs C
+lBC <- abs(mB-mC) / sqrt(2*CM_ERROR/b)
+# B vs D
+lBD <- abs(mB-mD) / sqrt(2*CM_ERROR/b)
+# B vs E
+lBE <- abs(mB-mE) / sqrt(2*CM_ERROR/b)
+# C vs D
+lCD <- abs(mC-mD) / sqrt(2*CM_ERROR/b)
+# C vs E
+lCE <- abs(mC-mE) / sqrt(2*CM_ERROR/b)
+# D vs E
+lDE <- abs(mD-mE) / sqrt(2*CM_ERROR/b)
+
+t.critico <- qt(1 - alpha/2, N-m)
+cat("t critico:",t.critico)
+
+cat("lAB:", lAB, "> t critico?", lAB > t.critico, "\n")
+cat("lAC:", lAC, "> t critico?", lAC > t.critico, "\n")
+cat("lAD:", lAD, "> t critico?", lAD > t.critico, "\n")
+cat("lAE:", lAE, "> t critico?", lAE > t.critico, "\n")
+cat("lBC:", lBC, "> t critico?", lBC > t.critico, "\n")
+cat("lBD:", lBD, "> t critico?", lBD > t.critico, "\n")
+cat("lBE:", lBE, "> t critico?", lBE > t.critico, "\n")
+cat("lCD:", lCD, "> t critico?", lCD > t.critico, "\n")
+cat("lCE:", lCE, "> t critico?", lCE > t.critico, "\n")
+cat("lDE:", lDE, "> t critico?", lDE > t.critico, "\n")
 \end{lstlisting}
 
 \end{document}
